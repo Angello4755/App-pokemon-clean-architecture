@@ -10,7 +10,6 @@ interface Props {
 export const ListPokemon: FC<Props> = ({ listPokemon }) => {
   return (
     <Grid.Container gap={2} justify="flex-start">
-      <h1>Total: {listPokemon.length}</h1>
       {listPokemon.map((pokemon) => (
         <CardPokemon key={pokemon.id} pokemon={pokemon} />
       ))}
