@@ -1,15 +1,8 @@
 import React from "react";
 import { Layout } from "../../../components/layouts";
 import { GetStaticProps, NextPage } from "next";
-import {
-  PokemonApi,
-} from "../../../core/entity/interfaces/pokemon-full";
-import {
-  Card,
-  Grid,
-  Row,
-  Text,
-} from "@nextui-org/react";
+import { PokemonApi } from "../../../core/entity/interfaces/pokemon-full";
+import { Card, Grid, Row, Text } from "@nextui-org/react";
 import { DetailPokemon } from "../../../components/pokemon";
 import FavoriteRepositoryInLocaStorage from "../../../infrastructure/repository/FavoriteRepositoryInLocaStorage";
 import ToogleFavorites from "../../../core/useCase/ToogleFavorites";
@@ -38,7 +31,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
                 width="100%"
                 height={200}
                 src={
-                  pokemon.sprites.other?.dream_world.front_default ||
+                  pokemon.sprites?.other?.dream_world.front_default ||
                   "/no-image.png"
                 }
                 alt={pokemon.name}

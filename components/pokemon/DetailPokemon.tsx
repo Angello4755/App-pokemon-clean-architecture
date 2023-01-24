@@ -12,8 +12,7 @@ export const DetailPokemon: FC<Props> = ({ pokemon, provider }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-      setIsFavorite(provider.existPokemonInFavorites.execute(pokemon.id));
-
+    setIsFavorite(provider.existPokemonInFavorites.execute(pokemon.id));
   }, []);
 
   const onToggleFavorite = () => {
@@ -49,25 +48,25 @@ export const DetailPokemon: FC<Props> = ({ pokemon, provider }) => {
           <Text size={30}>Sprintes</Text>
           <Container direction="row" display="flex" gap={0}>
             <Image
-              src={pokemon.sprites.front_default}
+              src={pokemon.sprites?.front_default || ""}
               alt={pokemon.name}
               width={100}
               height={100}
             />
             <Image
-              src={pokemon.sprites.back_default}
+              src={pokemon.sprites?.back_default || ""}
               alt={pokemon.name}
               width={100}
               height={100}
             />
             <Image
-              src={pokemon.sprites.front_shiny}
+              src={pokemon.sprites?.front_shiny || ""}
               alt={pokemon.name}
               width={100}
               height={100}
             />
             <Image
-              src={pokemon.sprites.back_shiny}
+              src={pokemon.sprites?.back_shiny || ""}
               alt={pokemon.name}
               width={100}
               height={100}

@@ -3,7 +3,7 @@
 export interface PokemonApi {
     id:                       number;
     name:                     string;
-    sprites:                  Sprites;
+    sprites?:                  Sprites;
 }
 
 export interface PokemonFull {

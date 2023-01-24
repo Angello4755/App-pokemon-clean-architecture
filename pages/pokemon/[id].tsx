@@ -2,12 +2,7 @@ import React from "react";
 import { Layout } from "../../components/layouts";
 import { GetStaticProps, NextPage } from "next";
 import { PokemonApi } from "../../core/entity/interfaces/pokemon-full";
-import {
-  Card,
-  Grid,
-  Row,
-  Text,
-} from "@nextui-org/react";
+import { Card, Grid, Row, Text } from "@nextui-org/react";
 import { DetailPokemon } from "../../components/pokemon";
 import FavoriteRepositoryInLocaStorage from "../../infrastructure/repository/FavoriteRepositoryInLocaStorage";
 import ToogleFavorites from "../../core/useCase/ToogleFavorites";
@@ -35,7 +30,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
                 width="100%"
                 height={200}
                 src={
-                  pokemon.sprites.other?.dream_world.front_default ||
+                  pokemon.sprites?.other?.dream_world.front_default ||
                   "/no-image.png"
                 }
                 alt={pokemon.name}
@@ -62,21 +57,31 @@ export async function getStaticPaths() {
     paths: pokemons151.map((id) => ({
       params: { id },
     })),
-    fallback: false, // can also be true or 'blocking'
+    fallback: "blocking", // can also be true or 'blocking'
   };
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { id } = ctx.params as { id: string };
-  
+
   const repo = new PokemonRepositoryInPokeApi();
   const getPokemonById = new GetPokemonById(repo);
 
-  const  data = await getPokemonById.execute(Number(id));
+  const data = await getPokemonById.execute(Number(id));
+
+  if (data.id === 0 && data.name === "") {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
       pokemon: data,
+      revalidate: 86400,
     },
   };
 };

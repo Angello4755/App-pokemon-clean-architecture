@@ -15,13 +15,19 @@ export default class PokemonRepositoryInPokeApi implements PokemonRepository {
         return Promise.resolve(pokemon);
     }
     async getPokemon(id: number): Promise<PokemonApi> {
-        const { data } = await pokeApi.get<PokemonFull>(`/pokemon/${id}`);
-        const pokemon: PokemonApi = {
-            id: data.id,
-            name: data.name,
-            sprites: data.sprites
-        }
-        return Promise.resolve(pokemon);
+        try {
+            const { data } = await pokeApi.get<PokemonFull>(`/pokemon/${id}`);
+            const pokemon: PokemonApi = {
+                id: data.id,
+                name: data.name,
+                sprites: data.sprites
+            }
+            return Promise.resolve(pokemon);
+       } catch {
+             const pokemon: PokemonApi = {id:0, name: ''}
+            return pokemon
+       }
+        
     }
     async getPokemons(limit: number): Promise<Pokemon[]> {   
         const { data } =  await pokeApi.get<PokemonList>(`/pokemon?limit=${limit}`);
