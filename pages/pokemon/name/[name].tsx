@@ -60,7 +60,7 @@ export async function getStaticPaths() {
     paths: pokemones.map(({ name }) => ({
       params: { name },
     })),
-    fallback: false, // can also be true or 'blocking'
+    fallback: "blocking", // can also be true or 'blocking'
   };
 }
 
@@ -71,9 +71,19 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const getPokemonByName = new GetPokemonByName(repo);
   const data = await getPokemonByName.execute(name);
 
+  if (data.id === 0 && data.name === "") {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       pokemon: data,
+      revalidate: 86400,
     },
   };
 };

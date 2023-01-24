@@ -4,15 +4,21 @@ import { pokeApi } from "../api";
 
 export default class PokemonRepositoryInPokeApi implements PokemonRepository {
     async getPokemonByName(name: string): Promise<PokemonApi> {
-        const { data } = await pokeApi.get<PokemonFull>(`/pokemon/${name}`);
+        try {
+            const { data } = await pokeApi.get<PokemonFull>(`/pokemon/${name}`);
 
-        const pokemon: PokemonApi = {
-            id: data.id,
-            name: data.name,
-            sprites: data.sprites
-        }
+            const pokemon: PokemonApi = {
+                id: data.id,
+                name: data.name,
+                sprites: data.sprites
+            }
+            return Promise.resolve(pokemon);
+    } catch {
+            const pokemon: PokemonApi = {id:0, name: ''}
+            return pokemon
+    }
 
-        return Promise.resolve(pokemon);
+        
     }
     async getPokemon(id: number): Promise<PokemonApi> {
         try {
